@@ -1,0 +1,202 @@
+{
+  "automationWorkflow": {
+    "title": "Fluxo de trabalho"
+  },
+  "automationWelcomeGuidedTourStep": {
+    "title": "Bem-vindo à Automações do Baserow!",
+    "content": "Vamos fazer um tour rápido. Você verá como configurar gatilhos, adicionar ações, testar seu fluxo de trabalho e publicá-lo, sem necessidade de programação."
+  },
+  "automationGraphGuidedTourStep": {
+    "title": "Gerencie seu gráfico de fluxo de trabalho aqui",
+    "content": "Crie um gatilho e ações aqui para definir o que o fluxo de trabalho deve fazer. Selecionar um gatilho ou ação para configurá-lo no painel lateral."
+  },
+  "automationTestRunGuidedTourStep": {
+    "title": "Teste seu fluxo de trabalho",
+    "content": "Quando estiver pronto, inicie um teste para ver seu fluxo de trabalho em ação. O gatilho será executado uma vez para simular uma execução completa."
+  },
+  "automationHistoryGuidedTourStep": {
+    "title": "Ver histórico de fluxo de trabalho",
+    "content": "Use o painel de histórico para revisar execuções de testes anteriores e execuções publicadas. É uma ótima maneira de depurar ou confirmar resultados."
+  },
+  "automationPublishGuidedTourStep": {
+    "title": "Publique seu fluxo de trabalho",
+    "content": "Depois de testar e refinar sua configuração, publique seu fluxo de trabalho para torná-lo ativo. Seu gatilho agora será executado automaticamente de acordo com o cronograma."
+  },
+  "automationWorkflowStateGuidedTourStep": {
+    "title": "Controlar o estado do fluxo de trabalho",
+    "content": "A partir daqui, você pode pausar ou retomar seu fluxo de trabalho a qualquer momento. Você sempre controla se ele está ativo ou desativado."
+  },
+  "automationDocsGuidedTourStep": {
+    "title": "Explorar a documentação",
+    "content": "Se você tiver dúvidas ou quiser saber mais, clique no botão destacado para obter guias detalhados e perguntas frequentes sobre a construção de automações no Baserow."
+  },
+  "sidebarComponentAutomation": {
+    "createAutomationWorkflow": "Novo fluxo de trabalho"
+  },
+  "createAutomationWorkflowModal": {
+    "header": "Criar fluxo de trabalho",
+    "submit": "Adicionar fluxo de trabalho"
+  },
+  "automationWorkflowForm": {
+    "defaultName": "Fluxo de trabalho",
+    "nameTitle": "Nome",
+    "nameSubtitle": "Nome exclusivo do fluxo de trabalho",
+    "namePlaceholder": "Digite um nome..."
+  },
+  "duplicateAutomationWorkflowJobType": {
+    "name": "Fluxo de trabalho de automação duplicar",
+    "duplicating": "Duplicando",
+    "duplicatedTitle": "Fluxo de trabalho duplicar"
+  },
+  "trashType": {
+    "workflow": "fluxo de trabalho",
+    "automation": "automação"
+  },
+  "generalSettings": {
+    "titleOverview": "Geral",
+    "nameLabel": "Nome da automação",
+    "notificationLabel": "Notificações",
+    "notificationCheckboxLabel": "Seja notificado quando esta automação falhar",
+    "cantUpdateAutomationTitle": "Não foi possível atualizar a automação",
+    "cantUpdateAutomationDescription": "Desculpe, não foi possível atualizar a automação."
+  },
+  "workflowGeneralSettings": {
+    "titleOverview": "Configurações de fluxo de trabalho",
+    "nameLabel": "Nome do fluxo de trabalho",
+    "workflowDisabledRecipientsLabel": "Destinatários de notificação",
+    "workflowDisabledRecipientsHelp": "Esses membros da área de trabalho receberão uma notificação no aplicativo se esse fluxo de trabalho for desativado automaticamente.",
+    "selectWorkflowDisabledRecipients": "Selecionar destinatários",
+    "noWorkflowDisabledRecipients": "Nenhum destinatário selecionado.",
+    "cantUpdateWorkflowTitle": "Não foi possível atualizar o fluxo de trabalho",
+    "cantUpdateWorkflowDescription": "Desculpe, não foi possível atualizar o fluxo de trabalho."
+  },
+  "workflowDisabledNotification": {
+    "body": "O fluxo de trabalho {name} foi desativado."
+  },
+  "integrationSettings": {
+    "title": "Integrações",
+    "noIntegrationMessage": "Você ainda não criou nenhuma integração. Eles podem ser criados adicionando fonte de dados, ação ou autenticação de usuário.",
+    "integrationMessage": "Você pode criar novas integrações adicionando fonte de dados, ação ou autenticação de usuário."
+  },
+  "automationHeader": {
+    "startTestRun": "Iniciar teste",
+    "stopTestRun": "Interromper a execução do teste",
+    "publishBtn": "Publicar",
+    "settingsBtn": "Configurações",
+    "historyBtn": "História",
+    "docsBtn": "Documentos",
+    "switchLabelDraft": "Rascunho",
+    "switchLabelDisabled": "Desabilitado",
+    "switchLabelPaused": "Pausado",
+    "switchLabelLive": "Ao vivo",
+    "lastPublished": "Última publicação"
+  },
+  "dataProviderType": {
+    "currentIteration": "Iteração atual",
+    "item": "Item",
+    "previousNode": "Nó anterior"
+  },
+  "nodeSidePanel": {
+    "labelTitle": "Rótulo"
+  },
+  "historySidePanel": {
+    "title": "História",
+    "noRunsTitle": "IAnda não há corridas",
+    "noRunsDescription": "Quando este fluxo de trabalho for executado, os resultados serão mostrados aqui.",
+    "statusStarted": "Em andamento...",
+    "statusSuccess": "Executado com sucesso",
+    "statusError": "Falha ao executar",
+    "statusSuccessBadge": "Concluído",
+    "statusErrorBadge": "Fracassado",
+    "statusDisabled": "Desativado pelo Baserow",
+    "successfulRuns": "Execuções bem-sucedidas",
+    "completedInSeconds": "Concluído em {s} segundos.",
+    "completedInLessThanSecond": "Concluído em menos de 1 segundo.",
+    "running": "Correndo para {at}s",
+    "failedRuns": "Execuções falhadas",
+    "errorHideDetails": "Ocultar detalhes",
+    "errorShowDetails": "Mostrar detalhes",
+    "runNumber": "Execute {n}",
+    "runCount": "{n} é executado",
+    "testRun": "Teste",
+    "showResult": "Mostrar resultado"
+  },
+  "nodeType": {
+    "triggerDeletionError": "Os gatilhos não podem ser excluídos, apenas substituídos.",
+    "localBaserowRowsCreatedLabel": "As linhas são criadas em {tableName}",
+    "localBaserowRowsUpdatedLabel": "As linhas são atualizadas em {tableName}",
+    "localBaserowRowsDeletedLabel": "As linhas são excluídas em {tableName}",
+    "localBaserowCreateRowLabel": "Crie uma linha em {tableName}",
+    "localBaserowUpdateRowLabel": "Atualizar uma linha em {tableName}",
+    "localBaserowDeleteRowLabel": "Excluir uma linha em {tableName}",
+    "localBaserowGetRowLabel": "Leia uma linha em {tableName}",
+    "localBaserowListRowsLabel": "Listar linhas em {tableName}",
+    "localBaserowAggregateRowsLabel": "Resumir linhas em {tableName}",
+    "httpRequestLabel": "Envie uma solicitação HTTP",
+    "smtpEmailLabel": "Envie um e-mail",
+    "routerLabel": "Siga 1 das filiais {edgeCount}",
+    "iterationLabel": "Iterar em itens",
+    "defaultEdgeLabelFallback": "Padrão",
+    "routerWithOutputNodesDeleteError": "Não pode ser excluído até que seus nós de saída {outputCount} sejam removidos.",
+    "routerWithOutputNodesReplaceError": "Não pode ser substituído até que seus nós de saída {outputCount} sejam removidos.",
+    "iteratorWithChildrenNodesDeleteError": "Não pode ser excluído até que seus nós filhos sejam removidos.",
+    "iteratorWithChildrenNodesReplaceError": "Não pode ser substituído até que seus nós filhos sejam removidos.",
+    "periodicTriggerLabel": "Gatilho periódico",
+    "aiAgent": "Alerta de IA",
+    "slackWriteMessageName": "Envie uma mensagem do Slack",
+    "slackWriteMessageLabel": "Envie uma mensagem para #{channel}"
+  },
+  "workflowNode": {
+    "actionDelete": "Excluir",
+    "actionReplace": "Substituir",
+    "actionDuplicate": "Duplicar",
+    "actionConfigure": "Configurar",
+    "beforeLabelTrigger": "Começa quando",
+    "beforeLabelAction": "Então",
+    "beforeLabelCondition": "Se a condição for atendida",
+    "beforeLabelConditionDefault": "Se nenhuma condição for atendida",
+    "beforeLabelRepeat": "Para cada item",
+    "moreEdit": "Editar",
+    "moreReplace": "Substituir",
+    "nodeOptions": "Opções de nó",
+    "displayLabelDebug": "ID: {id} | Anterior: {previousNodeId} | {outputUid}",
+    "moreDuplicate": "Duplicar"
+  },
+  "workflowAddNode": {
+    "displayTitle": "Criar nó de automação"
+  },
+  "workflowNodeContext": {
+    "searchPlaceholderTrigger": "Procure um gatilho...",
+    "searchPlaceholderActions": "Pesquisar ações...",
+    "noResults": "Nenhum resultado encontrado"
+  },
+  "serviceType": {
+    "periodicTrigger": "Gatilho periódico",
+    "periodicTriggerDescription": "Aciona o fluxo de trabalho periodicamente em intervalos especificados",
+    "periodicTriggerTriggeredAt": "Acionado em",
+    "errorIntervalMissing": "É necessário um intervalo.",
+    "coreHTTPTrigger": "Gatilho HTTP",
+    "coreHTTPTriggerDescription": "Receba solicitações HTTP para acionar fluxos de trabalho"
+  },
+  "workflowEditor": {
+    "chooseEvent": "Escolha um evento..."
+  },
+  "simulateDispatch": {
+    "sampleDataLabel": "Saída",
+    "triggerNodeAwaitingEvent": "O nó está esperando. Acione manualmente o evento para preencher a carga e concluir o teste.",
+    "simulationInProgress": "O teste do nó está em andamento...",
+    "errorNodeNotConfigured": "O nó deve ser configurado antes de poder ser testado.",
+    "errorPreviousNodeNotConfigured": "O nó anterior “{node}” deve ser configurado.",
+    "errorPreviousNodesNotTested": "O nó anterior “{node}” deve ser testado primeiro.",
+    "buttonLabelTest": "Evento de teste",
+    "buttonLabelTestAgain": "Evento de teste novamente",
+    "testNodeDescription": "Teste este evento para confirmar se a configuração está correta. Os dados deste teste podem ser usados ​​em etapas posteriores.",
+    "buttonLabelShowPayload": "Mostrar carga útil",
+    "buttonLabelShowError": "Mostrar erro",
+    "sampleDataModalTitle": "Carga útil para {nodeLabel}",
+    "sampleDataModalSubTitle": "Carga útil JSON",
+    "sampleDataCopy": "Copiar",
+    "errorOccurred": "Ocorreu um erro...",
+    "sampleDataCopied": "Carga copiada para a área de transferência"
+  }
+}
