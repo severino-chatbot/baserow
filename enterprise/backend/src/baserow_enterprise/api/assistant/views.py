@@ -23,7 +23,6 @@ from baserow.api.serializers import get_example_pagination_serializer_class
 from baserow.api.sessions import set_client_undo_redo_action_group_id
 from baserow.core.exceptions import UserNotInWorkspace, WorkspaceDoesNotExist
 from baserow.core.handler import CoreHandler
-from baserow_enterprise.assistant.assistant import set_assistant_cancellation_key
 from baserow_enterprise.assistant.exceptions import (
     AssistantChatDoesNotExist,
     AssistantChatMessagePredictionDoesNotExist,
@@ -31,7 +30,6 @@ from baserow_enterprise.assistant.exceptions import (
     AssistantModelNotSupportedError,
 )
 from baserow_enterprise.assistant.handler import AssistantHandler
-from baserow_enterprise.assistant.model_profiles import check_lm_ready_or_raise
 from baserow_enterprise.assistant.models import AssistantChatPrediction
 from baserow_enterprise.assistant.operations import ChatAssistantChatOperationType
 from baserow_enterprise.assistant.types import (
@@ -145,6 +143,10 @@ class AssistantChatView(APIView):
         }
     )
     def post(self, request: Request, chat_uuid: str, data) -> StreamingHttpResponse:
+        from baserow_enterprise.assistant.model_profiles import (
+            check_lm_ready_or_raise,
+        )
+
         ui_context = UIContext.from_validate_request(request, data["ui_context"])
         workspace_id = ui_context.workspace.id
         workspace = CoreHandler().get_workspace(workspace_id)
@@ -259,6 +261,10 @@ class AssistantChatView(APIView):
         }
     )
     def delete(self, request: Request, chat_uuid: str) -> Response:
+        from baserow_enterprise.assistant.assistant import (
+            set_assistant_cancellation_key,
+        )
+
         handler = AssistantHandler()
         chat = handler.get_chat(request.user, chat_uuid)
 

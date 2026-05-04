@@ -2,12 +2,13 @@ from datetime import timedelta
 
 from baserow.config.celery import app
 
-from .handler import AssistantHandler
 from .tools.search_user_docs.handler import KnowledgeBaseHandler
 
 
 @app.task(bind=True)
 def delete_old_unrated_predictions(self):
+    from .handler import AssistantHandler
+
     AssistantHandler().delete_predictions(older_than_days=30, exclude_rated=True)
 
 
