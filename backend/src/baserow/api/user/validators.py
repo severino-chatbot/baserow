@@ -5,6 +5,10 @@ from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 
+def normalize_language_code(value):
+    return value.replace("_", "-").lower()
+
+
 def password_validation(value):
     """
     Verifies that the provided password adheres to the password validation as defined

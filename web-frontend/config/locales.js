@@ -16,5 +16,5 @@ export const locales = [
   { code: 'pl', name: 'Polski (Beta)', file: 'pl.json' },
   { code: 'ko', name: '한국어', file: 'ko.json' },
   { code: 'uk', name: 'Українська', file: 'uk.json' },
-  { code: 'pt_BR', name: 'Português (BR)', file: 'pt_BR.json' },
+  { code: 'pt-br', name: 'Português (BR)', file: 'pt_BR.json' },
 ]
