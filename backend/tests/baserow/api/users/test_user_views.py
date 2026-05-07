@@ -67,6 +67,22 @@ def test_create_user(client, data_fixture):
     assert user.profile.language == "fr"
     assert response_json["user"]["language"] == "fr"
 
+    response = client.post(
+        reverse("api:user:index"),
+        {
+            "name": "TestPtBr",
+            "email": "test-pt-br@test.nl",
+            "password": valid_password,
+            "language": "pt_BR",
+        },
+        format="json",
+    )
+    response_json = response.json()
+    assert response.status_code == HTTP_200_OK
+    user = User.objects.get(email="test-pt-br@test.nl")
+    assert user.profile.language == "pt-br"
+    assert response_json["user"]["language"] == "pt-br"
+
     response_failed = client.post(
         reverse("api:user:index"),
         {"name": "Test1", "email": "test@test.nl", "password": valid_password},
@@ -239,6 +255,21 @@ def test_user_account(data_fixture, api_client):
     user.refresh_from_db()
     assert user.first_name == "NewOriginalName"
     assert user.profile.language == "fr"
+
+    response = api_client.patch(
+        reverse("api:user:account"),
+        {
+            "language": "pt_BR",
+        },
+        format="json",
+        HTTP_AUTHORIZATION=f"JWT {token}",
+    )
+    response_json = response.json()
+    assert response.status_code == HTTP_200_OK
+    assert response_json["language"] == "pt-br"
+
+    user.refresh_from_db()
+    assert user.profile.language == "pt-br"
 
     response = api_client.patch(
         reverse("api:user:account"),

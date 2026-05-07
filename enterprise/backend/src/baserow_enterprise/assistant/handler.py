@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from typing import AsyncGenerator
+from typing import TYPE_CHECKING, AsyncGenerator
 from uuid import UUID
 
 from django.contrib.auth.models import AbstractUser
@@ -7,10 +7,12 @@ from django.db.models import Count
 
 from baserow.core.models import Workspace
 
-from .assistant import Assistant
 from .exceptions import AssistantChatDoesNotExist
 from .models import AssistantChat, AssistantChatMessage, AssistantChatPrediction
 from .types import AiMessage, AssistantMessageUnion, HumanMessage, UIContext
+
+if TYPE_CHECKING:
+    from .assistant import Assistant
 
 
 class AssistantHandler:
@@ -112,6 +114,8 @@ class AssistantHandler:
         :param chat: The AI assistant chat to get the assistant for.
         :return: The assistant for the given chat.
         """
+
+        from .assistant import Assistant
 
         return Assistant(chat)
 

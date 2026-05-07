@@ -11,19 +11,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable
 
-from pydantic_ai.toolsets import AbstractToolset, CombinedToolset
-
 from baserow.core.registry import Instance, Registry
 from baserow_enterprise.assistant.deps import AgentMode
 
-from .toolset import (
-    InlineRefsToolset,
-    ModeAwareToolset,
-    generate_tool_manifest_compact,
-)
-
 if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractUser
+    from pydantic_ai.toolsets import AbstractToolset
 
     from baserow.core.models import Workspace
     from baserow_enterprise.assistant.deps import AssistantDeps
@@ -91,6 +84,14 @@ class AssistantToolRegistry(Registry[AssistantToolType]):
         :return: ``(toolset, database_manifest, application_manifest,
             automation_manifest, explain_manifest)``.
         """
+
+        from pydantic_ai.toolsets import CombinedToolset
+
+        from .toolset import (
+            InlineRefsToolset,
+            ModeAwareToolset,
+            generate_tool_manifest_compact,
+        )
 
         toolsets: list[AbstractToolset] = []
         module_groups: list[tuple[str, list[Callable]]] = []

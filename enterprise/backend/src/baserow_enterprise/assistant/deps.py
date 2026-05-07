@@ -4,10 +4,9 @@ from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import TYPE_CHECKING, Any, Callable
 
-from pydantic_ai import Tool
-
 if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractUser
+    from pydantic_ai import Tool
 
     from baserow.core.models import Workspace
     from baserow_enterprise.assistant.tools.navigation.types import (

@@ -2,7 +2,6 @@ from django.urls import include, path
 
 from baserow.core.registries import Plugin
 from baserow_enterprise.api import urls as api_urls
-from baserow_enterprise.api.assistant import urls as assistant_urls
 
 
 class EnterprisePlugin(Plugin):
@@ -14,6 +13,8 @@ class EnterprisePlugin(Plugin):
         ]
 
     def get_urls(self):
+        from baserow_enterprise.api.assistant import urls as assistant_urls
+
         return [
             path("assistant/", include(assistant_urls, namespace="assistant")),
         ]

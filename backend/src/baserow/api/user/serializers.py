@@ -20,7 +20,11 @@ from baserow.api.sessions import set_user_session_data_from_request
 from baserow.api.two_factor_auth.tokens import TwoFactorAccessToken
 from baserow.api.user.jwt import get_user_from_token
 from baserow.api.user.registries import user_data_registry
-from baserow.api.user.validators import language_validation, password_validation
+from baserow.api.user.validators import (
+    language_validation,
+    normalize_language_code,
+    password_validation,
+)
 from baserow.api.workspaces.invitations.serializers import (
     UserWorkspaceInvitationSerializer,
 )
@@ -51,6 +55,11 @@ token_refreshes_counter = meter.create_counter(
 )
 
 
+class LanguageField(serializers.CharField):
+    def to_internal_value(self, data):
+        return normalize_language_code(super().to_internal_value(data))
+
+
 class SubjectUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -64,7 +73,7 @@ class SubjectUserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    language = serializers.CharField(
+    language = LanguageField(
         source="profile.language",
         required=False,
         min_length=2,
@@ -141,7 +150,7 @@ class RegisterSerializer(serializers.Serializer):
         help_text="The email address is also going to be the username."
     )
     password = serializers.CharField(validators=[password_validation])
-    language = serializers.CharField(
+    language = LanguageField(
         required=False,
         default=settings.LANGUAGE_CODE,
         min_length=2,
@@ -183,7 +192,7 @@ class AccountSerializer(serializers.Serializer):
     """
 
     first_name = serializers.CharField(min_length=2, max_length=150, required=False)
-    language = serializers.CharField(
+    language = LanguageField(
         source="profile.language",
         required=False,
         min_length=2,

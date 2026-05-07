@@ -240,9 +240,11 @@ _dev-start:
     echo "Starting Baserow local development environment..."
     echo ""
 
-    # Start docker services (redis, db, mailhog, otel-collector)
+    # Start only the Docker infrastructure needed by the native dev processes.
+    # Calling compose without explicit service names also starts optional/heavy
+    # services from .env.docker-dev, duplicating local frontend/celery/storybook.
     echo "==> Starting Docker services (redis, db, mailhog, otel-collector)..."
-    just dc-dev up -d --scale backend=0 --scale web-frontend=0 --scale celery=0 --scale celery-beat-worker=0 --scale celery-export-worker=0
+    just dc-dev up -d redis db mailhog otel-collector
 
     # Wait for services to be ready
     echo "==> Waiting for PostgreSQL to be ready..."
