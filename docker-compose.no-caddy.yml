@@ -82,6 +82,7 @@ x-backend-variables:
   BATCH_ROWS_SIZE_LIMIT:
   INITIAL_TABLE_DATA_LIMIT:
   BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB:
+  BASEROW_FILE_UPLOAD_ACTIVE_CONTENT_POLICY:
   BASEROW_OPENAI_UPLOADED_FILE_SIZE_LIMIT_MB:
   BASEROW_UNIQUE_ROW_VALUES_SIZE_LIMIT:
 
@@ -95,6 +96,7 @@ x-backend-variables:
   BASEROW_AUTOMATION_WORKFLOW_TIMEOUT_HOURS:
   BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_DAYS:
   BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_ENTRIES:
+  BASEROW_AUTOMATION_WORKFLOW_HISTORY_MIN_RETENTION_DAYS:
   BASEROW_AUTOMATION_WORKFLOW_HISTORY_CLEANUP_INTERVAL_MINUTES:
 
   BASEROW_EXTRA_ALLOWED_HOSTS:
@@ -204,7 +206,7 @@ x-backend-variables:
 
 services:
   backend:
-    image: baserow/backend:2.2.1
+    image: baserow/backend:2.2.2
     restart: unless-stopped
     ports:
       - "${HOST_PUBLISH_IP:-127.0.0.1}:8000:8000"
@@ -219,12 +221,13 @@ services:
       local:
 
   web-frontend:
-    image: baserow/web-frontend:2.2.1
+    image: baserow/web-frontend:2.2.2
     restart: unless-stopped
     ports:
       - "${HOST_PUBLISH_IP:-127.0.0.1}:3000:3000"
     environment:
       BASEROW_PUBLIC_URL:
+      MEDIA_URL:
       PRIVATE_BACKEND_URL: ${PRIVATE_BACKEND_URL:-http://backend:8000}
       PUBLIC_BACKEND_URL:
       PUBLIC_WEB_FRONTEND_URL:
@@ -263,6 +266,7 @@ services:
       BASEROW_AUTOMATION_WORKFLOW_TIMEOUT_HOURS:
       BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_DAYS:
       BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_ENTRIES:
+      BASEROW_AUTOMATION_WORKFLOW_HISTORY_MIN_RETENTION_DAYS:
       BASEROW_AUTOMATION_WORKFLOW_HISTORY_CLEANUP_INTERVAL_MINUTES:
     depends_on:
       - backend
@@ -270,7 +274,7 @@ services:
       local:
 
   celery:
-    image: baserow/backend:2.2.1
+    image: baserow/backend:2.2.2
     restart: unless-stopped
     environment:
       <<: *backend-variables
@@ -291,7 +295,7 @@ services:
       local:
 
   celery-export-worker:
-    image: baserow/backend:2.2.1
+    image: baserow/backend:2.2.2
     restart: unless-stopped
     command: celery-exportworker
     environment:
@@ -312,7 +316,7 @@ services:
       local:
 
   celery-beat-worker:
-    image: baserow/backend:2.2.1
+    image: baserow/backend:2.2.2
     restart: unless-stopped
     command: celery-beat
     environment:

@@ -494,7 +494,7 @@ SPECTACULAR_SETTINGS = {
         "name": "MIT",
         "url": "https://github.com/baserow/baserow/blob/develop/LICENSE",
     },
-    "VERSION": "2.2.1",
+    "VERSION": "2.2.2",
     "SERVE_INCLUDE_SCHEMA": False,
     "TAGS": [
         {"name": "Settings"},
@@ -610,6 +610,15 @@ SPECTACULAR_SETTINGS = {
 BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB = int(
     Decimal(os.getenv("BASEROW_FILE_UPLOAD_SIZE_LIMIT_MB", 1024 * 1024)) * 1024 * 1024
 )  # ~1TB by default
+
+FILE_UPLOAD_ACTIVE_CONTENT_POLICY = os.getenv(
+    "BASEROW_FILE_UPLOAD_ACTIVE_CONTENT_POLICY", "download"
+).lower()
+if FILE_UPLOAD_ACTIVE_CONTENT_POLICY not in ("download", "block"):
+    raise ImproperlyConfigured(
+        "BASEROW_FILE_UPLOAD_ACTIVE_CONTENT_POLICY must be set to "
+        "'download' or 'block'."
+    )
 
 BASEROW_OPENAI_UPLOADED_FILE_SIZE_LIMIT_MB = int(
     os.getenv("BASEROW_OPENAI_UPLOADED_FILE_SIZE_LIMIT_MB", 512)
@@ -778,14 +787,21 @@ BASEROW_EMBEDDED_SHARE_URL = os.getenv("BASEROW_EMBEDDED_SHARE_URL")
 if not BASEROW_EMBEDDED_SHARE_URL:
     BASEROW_EMBEDDED_SHARE_URL = PUBLIC_WEB_FRONTEND_URL
 
+MEDIA_URL_PATH = "/media/"
+MEDIA_URL = os.getenv("MEDIA_URL", urljoin(PUBLIC_BACKEND_URL, MEDIA_URL_PATH))
+
 PRIVATE_BACKEND_URL = os.getenv("PRIVATE_BACKEND_URL", "http://backend:8000")
 PUBLIC_BACKEND_HOSTNAME = urlparse(PUBLIC_BACKEND_URL).hostname
 PUBLIC_WEB_FRONTEND_HOSTNAME = urlparse(PUBLIC_WEB_FRONTEND_URL).hostname
 BASEROW_EMBEDDED_SHARE_HOSTNAME = urlparse(BASEROW_EMBEDDED_SHARE_URL).hostname
+MEDIA_URL_HOSTNAME = urlparse(MEDIA_URL).hostname
 PRIVATE_BACKEND_HOSTNAME = urlparse(PRIVATE_BACKEND_URL).hostname
 
 if PUBLIC_BACKEND_HOSTNAME:
     ALLOWED_HOSTS.append(PUBLIC_BACKEND_HOSTNAME)
+
+if MEDIA_URL_HOSTNAME:
+    ALLOWED_HOSTS.append(MEDIA_URL_HOSTNAME)
 
 if PRIVATE_BACKEND_HOSTNAME:
     ALLOWED_HOSTS.append(PRIVATE_BACKEND_HOSTNAME)
@@ -833,6 +849,10 @@ ROW_PAGE_SIZE_LIMIT = int(os.getenv("BASEROW_ROW_PAGE_SIZE_LIMIT", 200))
 BATCH_ROWS_SIZE_LIMIT = int(
     os.getenv("BATCH_ROWS_SIZE_LIMIT", 200)
 )  # How many rows can be modified at once.
+
+SEARCH_UPDATE_BATCH_SIZE = int(
+    os.getenv("BASEROW_SEARCH_UPDATE_BATCH_SIZE", 2000)
+)  # How many rows to process per batch in search index updates.
 
 # Maximum count of records considered as a 'small table' during field rule operations.
 FIELD_RULE_ROWS_LIMIT = int(os.getenv("FIELD_RULE_ROWS_LIMIT", BATCH_ROWS_SIZE_LIMIT))
@@ -931,6 +951,9 @@ AUTOMATION_WORKFLOW_HISTORY_MAX_DAYS = int(
 AUTOMATION_WORKFLOW_HISTORY_MAX_ENTRIES = int(
     os.getenv("BASEROW_AUTOMATION_WORKFLOW_HISTORY_MAX_ENTRIES", 200)
 )
+AUTOMATION_WORKFLOW_HISTORY_MIN_RETENTION_DAYS = int(
+    os.getenv("BASEROW_AUTOMATION_WORKFLOW_HISTORY_MIN_RETENTION_DAYS", 2)
+)
 AUTOMATION_WORKFLOW_HISTORY_CLEANUP_INTERVAL_MINUTES = int(
     os.getenv("BASEROW_AUTOMATION_WORKFLOW_HISTORY_CLEANUP_INTERVAL_MINUTES", 60)
 )
@@ -951,8 +974,6 @@ BASEROW_INITIAL_CREATE_SYNC_TABLE_DATA_LIMIT = int(
     os.getenv("BASEROW_INITIAL_CREATE_SYNC_TABLE_DATA_LIMIT", 5000)
 )
 
-MEDIA_URL_PATH = "/media/"
-MEDIA_URL = os.getenv("MEDIA_URL", urljoin(PUBLIC_BACKEND_URL, MEDIA_URL_PATH))
 MEDIA_ROOT = os.getenv("MEDIA_ROOT", "/baserow/media")
 
 # Indicates the directory where the user files and user thumbnails are stored.
@@ -1421,6 +1442,10 @@ if SENTRY_DSN:
     from sentry_sdk.integrations.django import DjangoIntegration
     from sentry_sdk.scrubber import DEFAULT_DENYLIST, EventScrubber
 
+    from baserow.core.sentry import (
+        drop_expected_asyncio_websocket_ping_timeout_events,
+    )
+
     # Exclude integrations whose module-level imports are incompatible:
     # - pydantic_ai: sentry-sdk patches ToolManager._call_tool which was
     #   removed in pydantic-ai >= 1.x (now execute_tool_call)
@@ -1437,6 +1462,7 @@ if SENTRY_DSN:
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration(signals_spans=False, middleware_spans=False)],
         send_default_pii=False,
+        before_send=drop_expected_asyncio_websocket_ping_timeout_events,
         event_scrubber=EventScrubber(recursive=True, denylist=SENTRY_DENYLIST),
         environment=os.getenv("SENTRY_ENVIRONMENT", ""),
     )
